@@ -5,6 +5,7 @@
 typedef struct 
 {
 	unsigned int top;
+	int capacity;
 	int* array;
 }Stack;
 
@@ -15,26 +16,29 @@ typedef struct
 
 */
 
-Stack* createStack(int capacity)
+Stack* createStack(Stack* stack)
 {
-	Stack* stack = (Stack*) malloc(sizeof(Stack));       //Allocate memory to which 'stack' is pointing
+	// stack = (Stack*) malloc(sizeof(Stack));       //Allocate memory to which 'stack' is pointing
 	
-	stack -> top = -1;                                   //Assign top = -1 as stack is being created here so no element will be there
-	stack -> array = malloc(capacity * sizeof(int));   //Allocate memory for array of given capacity)
-	printf("\n Stack of capacity %d has been created.",(int)sizeof(int));
+	stack -> top = -1;                     		     //Assign top = -1 as stack is being created here so no element will be there
+	stack -> array = (int *)malloc((stack ->capacity) * sizeof(int));   //Allocate memory for array of given capacity)
+	printf("\n Stack of capacity %d has been created.", stack -> capacity);
 	return stack;
 }
 
 int isFull(Stack* stack)
 {
-	return stack -> top ==(sizeof(stack -> array)) -1 ;
+	return(stack -> top == (stack -> capacity) -1) ;
 }
 int push(Stack* stack, int newdata)
 {
 	Stack* newElement = stack;
 
-	return isFull(stack);
-
+	if (isFull(stack))
+	{
+		printf("\n The stack is FULL, can not push more elements \n");
+		return 0;
+	}
 	newElement -> top++;
 	newElement -> array[newElement -> top] = newdata;
 	printf("\n Current top of stack is %d and value last pushed is %d ", newElement -> top, newElement->array[newElement->top]);
@@ -44,7 +48,7 @@ int push(Stack* stack, int newdata)
 
 int isEmpty(Stack* stack)
 {
-	return stack -> top == -1;
+	return (stack -> top == -1);
 }
 
 int pop(Stack* stack)
@@ -58,11 +62,11 @@ int pop(Stack* stack)
 }
 int main()
 {
-	int capacity, top;
-	Stack* stack;
-
-	capacity = 20;
-	stack = createStack(capacity);
+	Stack* stack = (Stack*)malloc(sizeof(Stack));
+	int top;
+	
+	stack -> capacity = 6;
+	stack = createStack(stack);	
 	
 	top = push(stack, 5);
 	top = push(stack, 12);
